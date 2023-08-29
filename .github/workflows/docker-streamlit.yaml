@@ -2,7 +2,7 @@ name: Docker CI streamlit
 
 env:
   TAG: v1.0.0
-  DOCKERREPO: seblum/streamlit-inferencing
+  DOCKERREPO: seblum/streamlit-sagemaker-app
 
 on:
   push:
