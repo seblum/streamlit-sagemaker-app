@@ -14,13 +14,21 @@ endpoints = response.get("Endpoints")
 
 if endpoints:
     df = pd.DataFrame.from_records(endpoints)
-    df_table = df.drop(columns=["CreationTime",'LastModifiedTime'])
-    df_table["Creation Time"] = pd.to_datetime(df.LastModifiedTime).dt.strftime('%m/%d/%Y %H:%M:%S')
-    df_table = df_table.rename(columns={"EndpointName": "Endpoint Name", "EndpointArn": "Endpoint Arn","EndpointStatus": "Endpoint Status"})
+    df_table = df.drop(columns=["CreationTime", "LastModifiedTime"])
+    df_table["Creation Time"] = pd.to_datetime(df.LastModifiedTime).dt.strftime(
+        "%m/%d/%Y %H:%M:%S"
+    )
+    df_table = df_table.rename(
+        columns={
+            "EndpointName": "Endpoint Name",
+            "EndpointArn": "Endpoint Arn",
+            "EndpointStatus": "Endpoint Status",
+        }
+    )
     st.table(df_table)
 
 else:
-    st.info('There are currently no endpoints deployed', icon="ℹ️")
+    st.info("There are currently no endpoints deployed", icon="ℹ️")
 
 
 # if test_image:

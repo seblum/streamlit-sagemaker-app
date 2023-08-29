@@ -168,8 +168,8 @@ class AWSSession:
         """
         client = self.__boto3_role_session.client("sagemaker")
         response = client.list_endpoints(
-            SortBy='CreationTime',
-            SortOrder='Descending'
+            SortBy="CreationTime",
+            SortOrder="Descending"
             # SortBy='Name'|'CreationTime'|'Status',
             # SortOrder='Ascending'|'Descending',
             # NextToken='string',
