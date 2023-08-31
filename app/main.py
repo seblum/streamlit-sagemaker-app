@@ -1,24 +1,38 @@
 import pandas as pd
 import streamlit as st
-
 from utils import AWSSession, timeit
+
 
 # stores cache for 3600 seconds / 1h
 @st.cache_data(ttl=3600)
-def get_endpoint_response()->list:
+def get_endpoint_response() -> list:
+    """
+    Fetches SageMaker endpoint information using an AWS session and returns a list of endpoints.
+
+    Returns:
+        list: A list of endpoint details retrieved from the AWS session.
+    """
     aws_session = AWSSession()
     aws_session.set_sessions()
     response = aws_session.get_sagemaker_endpoints()
     return response.get("Endpoints")
 
+
 @st.cache_data(ttl=3600)
 @timeit
-def transform_endpoints(endpoints:list) -> pd.DataFrame:
+def transform_endpoints(endpoints: list) -> pd.DataFrame:
+    """
+    Transforms a list of endpoint details into a formatted DataFrame.
+
+    Args:
+        endpoints (list): A list of endpoint details.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing transformed endpoint information.
+    """
     df = pd.DataFrame.from_records(endpoints)
     df_table = df.drop(columns=["CreationTime", "LastModifiedTime"])
-    df_table["Creation Time"] = pd.to_datetime(df.LastModifiedTime).dt.strftime(
-        "%m/%d/%Y %H:%M:%S"
-    )
+    df_table["Creation Time"] = pd.to_datetime(df.LastModifiedTime).dt.strftime("%m/%d/%Y %H:%M:%S")
     df_table = df_table.rename(
         columns={
             "EndpointName": "Endpoint Name",
@@ -27,7 +41,6 @@ def transform_endpoints(endpoints:list) -> pd.DataFrame:
         }
     )
     return df_table
-
 
 
 st.header("AWS Sagemaker Endpoints")
